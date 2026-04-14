@@ -1,0 +1,114 @@
+{% extends "common.html" %}
+{% load static %}
+{% block content %}
+
+
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-1 mb-0 animated slideInLeft">Testimonial</h1>
+                </div>
+                <div class="col-lg-6 animated slideInRight">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Testimonial</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="container-xxl py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-9">
+                <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.2s">
+                    
+                    <div class="testimonial-item">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-md-6">
+                                <div class="testimonial-img">
+                                    <img class="img-fluid rounded" src="{% static 'img/testimonial-1.jpg' %}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="testimonial-text pb-5 pb-md-0">
+                                    <h3>Sustainable Material</h3>
+                                    <p class="fst-italic text-muted">"I was amazed by Hirvan Interiors' dedication to eco-friendly design. They sourced beautiful, reclaimed wood for my living room and ensured all finishes were non-toxic. It feels great to have a stunning home that is also kind to the environment."</p>
+                                    <h5 class="mb-0 fw-bold">Harvey Specter</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-item">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-md-6">
+                                <div class="testimonial-img">
+                                    <img class="img-fluid rounded" src="{% static 'img/testimonial-2.jpg' %}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="testimonial-text pb-5 pb-md-0">
+                                    <h3>Customer Satisfaction</h3>
+                                    <p class="fst-italic text-muted">"The entire process was completely seamless. From the initial moodboard consultation to the final site visit, my designer listened to every detail I wanted. Hirvan Interiors truly made building my dream home a stress-free experience."</p>
+                                    <h5 class="mb-0 fw-bold">Donna Paulsen</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-item">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-md-6">
+                                <div class="testimonial-img">
+                                    <img class="img-fluid rounded" src="{% static 'img/testimonial-3.jpg' %}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="testimonial-text pb-5 pb-md-0">
+                                    <h3>Budget Friendly</h3>
+                                    <p class="fst-italic text-muted">"I thought hiring a professional interior designer would be out of my reach, but Hirvan Interiors proved me wrong. They helped me achieve a high-end luxury look while strictly respecting my budget. Every penny was well spent."</p>
+                                    <h5 class="mb-0 fw-bold">Mike Ross</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="container-fluid bg-primary newsletter p-0">
+        <div class="container p-0">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-5 ps-lg-0 text-start wow fadeIn" data-wow-delay="0.2s">
+                    <img class="img-fluid w-100" src="{% static 'img/newsletter.jpg' %}" alt="">
+                </div>
+                <div class="col-md-7 py-5 newsletter-text wow fadeIn" data-wow-delay="0.5s">
+                    <div class="p-5">
+                        <h1 class="mb-5">Subscribe the <span
+                                class="text-uppercase text-primary bg-white px-2">Newsletter</span></h1>
+                        <div class="position-relative w-100 mb-2">
+                            <input class="form-control border-0 w-100 ps-4 pe-5" type="text"
+                                placeholder="Enter Your Email" style="height: 60px;">
+                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-2 me-2"><i
+                                    class="fa fa-paper-plane text-primary fs-4"></i></button>
+                        </div>
+                        <p class="mb-0">Get Daily Updates !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     {% endblock %}

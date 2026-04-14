@@ -1,0 +1,97 @@
+{% extends "common.html" %}
+{% load static %}
+{% load cloudinary %} 
+{% block content %}
+
+
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-1 mb-0 animated slideInLeft">Manage-Design</h1>
+                </div>
+                <div class="col-lg-6 animated slideInRight">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Manage-Design</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+            <h1 class="mb-5"> Below are Your <span class="text-uppercase text-primary bg-light px-2">Designs!</span></h1>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="wow fadeIn" data-wow-delay="0.3s">
+                    {% for d in designer %}
+                    <div class="row align-items-center justify-content-center mb-5 gx-0">
+                        
+                        <div class="col-11 col-sm-10 col-md-8 col-lg-6">
+                            <div class="project-item position-relative overflow-hidden shadow" style="border-radius:15px; height: 400px; width: 100%;">
+                                
+                                {% cloudinary d.dimage.name width="800" height="400" crop="fill" class="img-fluid w-100 h-100" style="object-fit: cover;" alt=d.dname %}
+                                <a class="project-overlay text-decoration-none" href="{% url 'design_info' d.slug %}">
+                                    <h4 class="text-white">{{ d.dname }}</h4>
+                                    <small class="text-white">{{ d.dcategory }}</small>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-auto mt-4 mt-lg-0 ms-lg-4">
+                            <div class="d-flex flex-row flex-lg-column gap-3 justify-content-center align-items-center">
+                                
+                                <a href="{% url 'edit_design' d.id %}" class="text-decoration-none">
+                                    <button title="Edit Design"
+                                        style="background-color:teal; color: white; height: 60px; width: 60px; 
+                                               font-size: 24px; border: none; border-radius: 50%; 
+                                               display: flex; align-items: center; justify-content: center;
+                                               box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                </a>
+
+                                <button data-bs-toggle="modal" data-bs-target="#deleteModal{{ d.id }}" title="Delete Design"
+                                    style="background-color:teal; color: white; height: 60px; width: 60px; 
+                                           font-size: 24px; border: none; border-radius: 50%; 
+                                           display: flex; align-items: center; justify-content: center;
+                                           box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deleteModal{{ d.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:teal;">
+                                    <h1 class="modal-title fs-5 text-white">Delete {{ d.dname }}?</h1>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-dark fw-bold">
+                                    This Action Cannot Be Undone !!!
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" style="background-color:teal; border:none;" data-bs-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_design' d.id %}" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

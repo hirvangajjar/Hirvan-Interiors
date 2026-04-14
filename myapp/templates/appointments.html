@@ -1,0 +1,116 @@
+{% extends "common.html" %}
+{% load static %}
+{% block content %}
+
+
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-1 mb-0 animated slideInLeft">Appointments</h1>
+                </div>
+                <div class="col-lg-6 animated slideInRight">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Appointments</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        {% if appointments %}
+        <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+            <h1 class="mb-5"> Below are Your <span class="text-uppercase text-primary bg-light px-2">Appointments!</span></h1>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="wow fadeIn" data-wow-delay="0.3s">
+                    
+                    <div class="table-responsive shadow-sm" style="border-radius: 10px;">
+                        <table class="table table-hover align-middle bg-white">
+                            <thead class="table-light">
+                                <tr class="text-nowrap">
+                                    <th scope="col">Client Name</th>
+                                    <th scope="col">Contact</th>
+                                    <th scope="col">Site Type</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Visit Date</th>
+                                    <th scope="col">Visit Time</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for app in appointments %}
+                                <tr>
+                                    <td class="text-nowrap">{{ app.dreamer.name }}</td>
+                                    <td>{{ app.dreamer.contact }}</td>
+                                    <td>{{ app.site.site_type }}</td>
+                                    <td>
+                                        <button class="btn btn-sm text-white" 
+                                                style="background-color:teal; border-radius: 20px; min-width: 100px;" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#addressModal{{ app.id }}">
+                                            View Address
+                                        </button>
+
+                                        <div class="modal fade" id="addressModal{{ app.id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color:teal; color:white;">
+                                                        <h5 class="modal-title text-white">Address Details</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-dark">
+                                                        <p class="mb-1"><strong>Client:</strong> {{app.dreamer.name}}</p>
+                                                        <hr>
+                                                        {{ app.site.address }},<br> 
+                                                        {{ app.site.city }},<br> 
+                                                        {{ app.site.state }} - {{ app.site.pincode }}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" style="background-color:teal; border:none;" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-nowrap">{{ app.site.visit_date }}</td>
+                                    <td>{{ app.site.visit_time }}</td>
+                                    <td>
+                                        {% if app.is_paid %}
+                                            <span class="badge bg-success">Paid</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="no-bookings p-5 bg-light rounded shadow-sm">
+                <i class="fa fa-calendar-times fa-4x text-primary mb-4"></i>
+                <h3>No Appointments Yet!</h3>
+                <p class="text-muted">Continue sharing your creativity and wait for the Dreamers to reach out.</p>
+                <a href="{% url 'add_design' %}" class="btn btn-primary btn-lg px-5 mt-3">Add New Design</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+    {% endblock %}

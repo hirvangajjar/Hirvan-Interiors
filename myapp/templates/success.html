@@ -1,0 +1,38 @@
+{% extends "common.html" %}
+{% block content %}
+
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-lg border-0 p-5">
+                <div class="mb-4">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                </div>
+                <h1 class="display-4 fw-bold text-dark">Payment Successful!</h1>
+                <p class="lead text-muted">Your booking with <strong>{{ booking.designer.name }}</strong> is confirmed.</p>
+                
+                <hr class="my-4">
+                
+                <div class="row text-start justify-content-center">
+                    <div class="col-md-6">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Order ID:</strong> {{ booking.order_id }}</li>
+                            <li class="list-group-item"><strong>Amount Paid:</strong> ₹{{ booking.amount }}</li>
+                            <li class="list-group-item"><strong>Site Type:</strong> {{ booking.site.site_type }}</li>
+                            <li class="list-group-item"><strong>Address:</strong> {{ booking.site.address }}, {{ booking.site.city }} - {{booking.site.pincode}}</li>
+                            <li class="list-group-item"><strong>Visit Date:</strong> {{booking.site.visit_date}}</li>
+                            <li class="list-group-item"><strong>Visit Time:</strong> {{booking.site.visit_time}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-5 d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+    <a href="{% url 'home' %}" class="btn btn-primary btn-lg px-5 w-100 w-md-auto">Back to Home</a>
+    <a href="{% url 'download_receipt' booking.order_id %}" class="btn btn-primary btn-lg px-5 w-100 w-md-auto">Download Receipt</a>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

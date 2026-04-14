@@ -1,0 +1,199 @@
+{% extends "common.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-4 align-items-center">
+                
+                <div class="col-lg-6 text-center text-lg-start">
+                    
+                    <div class="mb-4 animated zoomIn">
+                        {% if designer.uprofile %}
+                            <img src="{{ designer.uprofile.url }}" class="rounded-circle shadow-lg" style="width: 250px; height: 250px; object-fit: cover; border:4px solid white;">
+                        {% else %}
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s" class="rounded-circle shadow-lg" style="width: 250px; height: 250px; object-fit: cover; border:4px solid white;">
+                        {% endif %}
+                    </div>
+                    
+                    <h1 class="display-4 text-black mb-3 animated slideInLeft">{{designer.name}}</h1>
+                    <h4 class="text-black-50 mb-2 animated slideInLeft"><i class="fa fa-phone me-2 text-black"></i>{{designer.contact}}</h4>
+                    <h4 class="text-black mb-0 animated slideInLeft">Consultation Fees: <span class="fw-bold">₹ {{designer.consultation_fee}} /-</span></h4>
+                
+                </div>
+                
+                <div class="col-lg-6 animated slideInRight mt-5 mt-lg-0">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-black" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-black" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-black-50 active" aria-current="page">Designer Details</li>
+                        </ol>
+                    </nav>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5 d-flex justify-content-center justify-content-lg-start px-4 px-lg-5">
+        <button style="background-color:teal; color: white; height: 60px; font-size: 1.2rem; border: none; border-radius: 50px; padding: 0 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" data-bs-toggle="modal" data-bs-target="#exampleModal" class="w-100 w-sm-auto">
+            Continue Booking
+        </button>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"> <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Site to be Visited?</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addressForm">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="form-control" name="site_type" id="site_type" required>
+                                        <option value="" selected>Select Purpose?</option>
+                                        <option value="Residential">Residential</option>
+                                        <option value="Commercial">Commercial</option>
+                                    </select>  
+                                    <label for="site_type">Site Type</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Your address" required>
+                                    <label for="address">Your Address</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode" maxlength="6" onkeyup="fetchAddress()" required>
+                                    <label for="pincode">Pincode</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6"> <div class="form-floating">
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+                                    <label for="city">City/District</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+                                    <label for="state">State</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="date" name="visit_date" id="visit_date" class="form-control" required >
+                                    <label for="visit_date">Visit Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="time" name="visit_time" id="visit_time" class="form-control" min="10:00" max="18:00" required >
+                                    <label for="visit_time">Visit Time (10:00 AM - 06:00 PM)</label>
+                                    <small id="timeError" class="text-danger mt-1" style="display:none;">Please select a time between 10 AM and 6 PM.</small>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn text-white w-100 py-3 rounded-pill shadow-sm" style="background-color:teal; font-size: 1.1rem;">
+                        Save & Proceed to Payment
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('visit_date');
+    const timeInput = document.getElementById('visit_time');
+    dateInput.setAttribute('min', today);
+    
+    function validateDateTime() {
+        const selectedDate = dateInput.value;
+        const selectedTime = timeInput.value;
+        if (!selectedDate || !selectedTime) return;
+
+        const now = new Date();
+        const [hours, minutes] = selectedTime.split(':');
+        const selectedDateTime = new Date(selectedDate);
+        selectedDateTime.setHours(hours, minutes);
+
+        if (selectedDateTime < now) {
+            alert("You cannot select a time that has already passed.");
+            this.value = "";
+        }
+    }
+    timeInput.addEventListener('change', validateDateTime);
+    dateInput.addEventListener('change', validateDateTime);
+
+    function fetchAddress() {
+        let pincode = document.getElementById("pincode").value;
+        if (pincode.length === 6) {
+            let url = `https://api.postalpincode.in/pincode/${pincode}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data[0].Status === "Success") {
+                        let postOffice = data[0].PostOffice[0];
+                        document.getElementById("city").value = postOffice.District;
+                        document.getElementById("state").value = postOffice.State;
+                    }
+                })
+                .catch(err => console.log("Pincode API Error:", err));
+        }
+    }
+
+    const cashfree = Cashfree({
+        mode: "sandbox" 
+    });
+
+    document.getElementById('addressForm').onsubmit = function(e) {
+        e.preventDefault(); 
+        const formData = new FormData(this);
+
+        fetch("{% url 'create_cashfree_booking' project.id %}", {
+            method: 'POST',
+            body: formData, 
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        })
+        .then(res => {
+            if (res.status === 401) {
+                alert("Your session has expired. Please log in again.");
+                window.location.href = "{% url 'login' %}";
+                return;
+            }
+        
+            if (!res.ok) {
+                throw new Error('Server returned an error');
+            }
+
+            return res.json();
+        })
+        .then(data => {
+            if (data.payment_session_id) {
+                cashfree.checkout({
+                    paymentSessionId: data.payment_session_id,
+                    redirectTarget: "_self" 
+                });
+            } else {
+                alert("Error: " + (data.error || "No session ID received. Check terminal logs."));
+            }
+        })
+        .catch(err => {
+            console.error("Fetch error:", err);
+            if (window.location.pathname !== "{% url 'login' %}") {
+                alert("Connection failed. Check if your server is running.");
+            }
+        });
+    };
+</script>
+
+{% endblock %}

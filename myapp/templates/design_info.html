@@ -1,0 +1,88 @@
+{% extends "common.html" %}
+{% load static %}
+{% load cloudinary%}
+{% block content %}
+
+<div class="container-fluid pb-5 bg-primary hero-header">
+    <div class="container py-5">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dcategory}}</h6>
+                <h1 class="display-1 mb-0 animated slideInLeft">{{design.dname}}</h1>
+                <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dsummary}}</h4>
+                <h4 class="display-9 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">Starting Price : <b>₹ {{design.dstartprice}} /-</b></h4>
+                <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">By Designer : {{design.user}}</h6>
+            </div>
+            <div class="col-lg-6 animated slideInRight">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                        <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                        <li class="breadcrumb-item text-secondary active" aria-current="page">Design Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="row align-items-center"> 
+        
+        <div class="col-lg-7 col-md-12 mb-5 mb-lg-0 d-flex justify-content-center justify-content-lg-end">
+    <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel" style="width: 100%; max-width: 600px;">
+        <div class="carousel-inner" style="border-radius:10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            
+            <div class="carousel-item active" data-bs-interval="5000">
+                {% cloudinary design.dimage.name width="600" height="440" crop="fill" class="d-block w-100" style="height:440px; object-fit: cover;" alt="Main Design" %}
+            </div>
+            
+            {% if design.dimage2 %}
+            <div class="carousel-item" data-bs-interval="5000">
+                {% cloudinary design.dimage2.name width="600" height="440" crop="fill" class="d-block w-100" style="height:440px; object-fit: cover;" alt="Design View 2" %}
+            </div>
+            {% endif %}
+            
+            {% if design.dimage3 %}
+            <div class="carousel-item" data-bs-interval="5000">
+                {% cloudinary design.dimage3.name width="600" height="440" crop="fill" class="d-block w-100" style="height:440px; object-fit: cover;" alt="Design View 3" %}
+            </div>
+            {% endif %}
+            
+        </div>
+
+        {% if design.dimage2 or design.dimage3 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        {% endif %}
+
+    </div>
+</div>
+
+        {% if request.session.usertype == "Dreamer" %}
+        <div class="col-lg-5 col-md-12 d-flex flex-column align-items-center align-items-lg-start pl-lg-5">
+            <a href="{% url 'designer_info' design.id %}" class="w-100 text-center text-lg-start mb-4">
+                <button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    style="background-color:teal;color: white;height: 60px;width: 80%; max-width: 300px; font-size: x-large;border: none;border-radius: 50px; transition: 0.3s;">
+                    Book a Visit
+                </button>
+            </a>
+            <a href="{% url 'moodboard_add' design.id %}" class="w-100 text-center text-lg-start">
+                <button id="edit"
+                    style="background-color:teal;color: white;height: 60px;width: 80%; max-width: 300px; font-size: x-large;border: none;border-radius: 50px; transition: 0.3s;">
+                    Add to MoodBoard
+                </button>
+            </a>
+        </div>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}

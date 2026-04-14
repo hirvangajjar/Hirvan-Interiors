@@ -1,0 +1,124 @@
+{% extends "common.html" %}
+{% load static %}
+{% block content %}
+
+
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-1 mb-0 animated slideInLeft">Add-Design</h1>
+                </div>
+                <div class="col-lg-6 animated slideInRight">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Add-Design</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="mb-5">Aha ! New Design <span class="text-uppercase text-primary bg-light px-2">Add Below!</span></h1>
+            </div>            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="wow fadeIn" data-wow-delay="0.3s">
+                        <form method="post" action="{% url 'add_design' %}" enctype="multipart/form-data">
+                             {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-11">
+                                    <div class="form-floating">
+                                        <select class="form-control" name="dcategory" id="" required>
+                                            <option value="" selected>Select Design Category</option>
+                                            <option value="Residential">Residential</option>
+                                            <option value="Commercial">Commercial</option>
+                                        </select>  
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="dname" name="dname" placeholder="Your dname" required>
+                                        <label for="dname">Concept Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="dprice" name="dprice" placeholder="Your dprice" required>
+                                        <label for="dprice">Approx. Starting Price</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="dsummary" name="dsummary" placeholder="dsummary" required>
+                                        <label for="dsummary">Design Summary</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+    <div class="row g-2 align-items-center">
+        <div class="col-10 col-md-11">
+            <div class="form-floating">
+                <input type="file" class="form-control" id="dimage" name="dimage" required>
+                <label for="dimage">Main Design Image</label>
+            </div>
+        </div>
+
+        <div class="col-2 col-md-1">
+            <button type="button" onclick="addimage()" 
+                style="background-color:teal; color: white; height: 50px; width: 50px; 
+                       font-size: 24px; border: none; border-radius: 50%; 
+                       display: flex; align-items: center; justify-content: center;
+                       transition: transform 0.2s; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"
+                onmouseover="this.style.transform='scale(1.1)'"
+                onmouseout="this.style.transform='scale(1)'">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+                                <div class="col-md-11" id="div_dimage2" style="display:none;">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="dimage2" name="dimage2">
+                                        <label for="dimage2">Image 2</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-11" id="div_dimage3" style="display:none;">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="dimage3" name="dimage3">
+                                        <label for="dimage3">Image 3</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Upload</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const addimage = () => {
+            const d2 = document.getElementById("div_dimage2");
+            const d3 = document.getElementById("div_dimage3");
+
+            if (d2.style.display === "none") {
+                d2.style.display = "block";
+            } else {
+                d3.style.display = "block";
+            }
+        }
+    </script>
+
+    {% endblock %}

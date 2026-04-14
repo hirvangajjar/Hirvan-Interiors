@@ -1,0 +1,60 @@
+{% extends "common.html" %}
+{% load static %}
+{% load cloudinary %} 
+{% block content %}
+
+<div class="container-fluid bg-primary hero-header mb-5">
+    <div class="container py-5">
+        {% if request.session.usertype == "Designer" %}
+            <h1 class="display-3 text-black animated slideInDown">
+                Hello, Designer {{ user.name }} !
+            </h1>
+            <p class="text-black">Your Designs : {{my_count}} / {{total_count}}</p>
+        {% else %}
+            <h1 class="display-3 text-black animated slideInDown">
+                Hello, Dreamer {{ user.name }} !
+            </h1>
+        {% endif %}
+        <div class="d-flex">
+        </div>
+    </div>
+</div>
+            <div class="row g-0" style="display:flex; flex-direction:row;">
+                {% for d in design %}
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
+                            <div class="project-item position-relative overflow-hidden m-5" style="border-radius:10px">
+                                
+                                {% cloudinary d.dimage.name width="400" height="400" crop="fill" class="img-fluid w-100" style="height: 400px; width: 400px; object-fit: cover;" alt=d.dname %}
+                                <a class="project-overlay text-decoration-none" href="{% url 'design_info' d.slug %}">
+                                    <h5 style="height: 20px; width:160px;color:white;position: absolute;top: 10px;left:10px">Starting From : ₹ {{d.dstartprice}}/-</h5>
+                                    <h4 class="text-white">{{d.dname}}</h4>
+                                    <small class="text-white">{{d.dcategory}}</small>
+                                </a>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
+
+    <div class="container-fluid bg-primary newsletter p-0">
+        <div class="container p-0">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-5 ps-lg-0 text-start wow fadeIn" data-wow-delay="0.2s">
+                    <img class="img-fluid w-100" src="{% static 'img/newsletter.jpg' %}" alt="">
+                </div>
+                <div class="col-md-7 py-5 newsletter-text wow fadeIn" data-wow-delay="0.5s">
+                    <div class="p-5">
+                        <h1 class="mb-5">Subscribe the <span
+                                class="text-uppercase text-primary bg-white px-2">Newsletter</span></h1>
+                        <div class="position-relative w-100 mb-2">
+                            <input class="form-control border-0 w-100 ps-4 pe-5" type="text"
+                                placeholder="Enter Your Email" style="height: 60px;">
+                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-2 me-2"><i
+                                    class="fa fa-paper-plane text-primary fs-4"></i></button>
+                        </div>
+                        <p class="mb-0">Get Daily Updates !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

@@ -1,0 +1,60 @@
+{% extends "common.html" %}
+{% load static %}
+{% block content %}
+    
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-1 mb-0 animated slideInLeft">Moodboard</h1>
+                </div>
+                <div class="col-lg-6 animated slideInRight">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Moodboard</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container py-5">
+        <div class="row g-4 justify-content-center">
+            
+            {% for item in design %}
+                <div class="col-12 col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
+                    
+                    <div class="project-item position-relative overflow-hidden rounded shadow-sm">
+                        <img class="img-fluid w-100" style="height: 400px; object-fit: cover;" src="{{item.design.dimage.url}}" alt="{{item.design.dname}}">
+                        
+                        <a class="project-overlay text-decoration-none" href="{% url 'design_info' item.design.slug %}">
+                            <h5 style="color:white; position: absolute; top: 15px; left:15px">Starting From: {{item.design.dstartprice}}/-</h5>
+                            <h4 class="text-white">{{item.design.dname}}</h4>
+                            <small class="text-white">{{item.design.dcategory}}</small>
+                        </a>
+
+                        <div style="position: absolute; bottom: 15px; right: 15px; z-index: 10;">
+                            <form action="{% url 'moodboard_delete' item.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm shadow" title="Remove from Moodboard">
+                                    <i class="fa fa-trash"></i> Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div> {% empty %}
+                <div class="col-12 text-center py-5">
+                    <div class="p-5 bg-light rounded shadow-sm">
+                        <i class="fa fa-heart-crack fa-4x text-primary mb-4"></i>
+                        <h2 class="text-muted">No items in your Moodboard!</h2>
+                        <p>Explore our top designs and save your favorites here.</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary mt-3 px-4">Browse Designs</a>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+    {% endblock %}

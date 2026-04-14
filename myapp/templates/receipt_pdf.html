@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; }
+        .header { text-align: center; border-bottom: 2px solid #333; }
+        .details { margin-top: 20px; }
+        .footer { margin-top: 50px; font-size: 10px; text-align: center; color: gray; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>HIRVAN INTERIORS - INVOICE</h1>
+        <p>Order ID: {{ booking.order_id }}</p>
+    </div>
+    <div class="details">
+        <p><strong>Customer:</strong> {{ booking.dreamer.name }}</p>
+        <p><strong>Designer:</strong> {{ booking.designer.name }}</p>
+        <p><strong>Visit Date:</strong> {{ booking.site.visit_date }}</p>
+        <p><strong>Visit Time:</strong> {{ booking.site.visit_time }}</p>
+        <p><strong>Amount Paid:</strong> ₹{{ booking.amount }}</p>
+        <p><strong>Date:</strong> {{ booking.created_at|date:"D, d M Y" }}</p>
+    </div>
+    <div class="footer">
+        <p>Thank you for using Hirvan Interiors - Architecture & Interior Design</p>
+    </div>
+</body>
+</html>
